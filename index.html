@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Arun Ashokan | Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{brand:{primary:'#1A73E8',accent:'#34D399'},},animation:{'zoom-slow':'zoom 12s ease-in-out infinite'},keyframes:{zoom:{'0%,100%':{transform:'scale(1)'},'50%':{transform:'scale(1.05)'}}}}}}</script>
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <link rel="stylesheet" href="custom.css" />
+  <script src="https://kit.fontawesome.com/a2d9d6a05f.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-white text-gray-900 antialiased">
+<header class="sticky top-0 bg-white/80 backdrop-blur z-50 border-b">
+  <div class="max-w-6xl mx-auto flex justify-between items-center px-4 py-3">
+    <span class="font-bold">Arun <span class="text-brand-primary">Ashokan</span></span>
+    <a href="https://drive.google.com/uc?export=download&id=1WT1bzr0M_eLK9WXrUpdb36i26VXyxB3c" target="_blank" class="bg-brand-primary text-white px-4 py-2 rounded-lg">Download Resume</a>
+  </div>
+</header>
+
+<section class="max-w-6xl mx-auto px-4 py-16 grid md:grid-cols-2 gap-8 items-center">
+  <div data-aos="fade-right">
+    <h1 class="text-4xl font-bold">Manager – Presales<br><span class="text-brand-primary">Customer Success & AI SaaS Leader</span></h1>
+    <div class="mt-6 p-6 bg-gray-50 rounded-xl shadow">
+      <p class="text-gray-700">Strategic presales and customer success leader with 18+ years enabling enterprise adoption of AI/ML-powered SaaS solutions. Proven expertise in Conversational AI, CVM, CDP, and CCaaS. Skilled in aligning technical solutioning with GTM strategy to reduce churn, accelerate time-to-value, and drive ROI.</p>
+    </div>
+    <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-4 text-center">
+      <div class="p-4 bg-white rounded-xl shadow"><span class="text-2xl font-bold text-brand-primary">18+</span><p class="text-sm">Years</p></div>
+      <div class="p-4 bg-white rounded-xl shadow"><span class="text-2xl font-bold text-brand-primary">25%</span><p class="text-sm">Faster Cycles</p></div>
+      <div class="p-4 bg-white rounded-xl shadow"><span class="text-2xl font-bold text-brand-primary">40%</span><p class="text-sm">Win Rate↑</p></div>
+      <div class="p-4 bg-white rounded-xl shadow"><span class="text-2xl font-bold text-brand-primary">95%</span><p class="text-sm">On-time</p></div>
+      <div class="p-4 bg-white rounded-xl shadow"><span class="text-2xl font-bold text-brand-primary">60%</span><p class="text-sm">Retention↑</p></div>
+      <div class="p-4 bg-white rounded-xl shadow"><span class="text-2xl font-bold text-brand-primary">65%</span><p class="text-sm">Time↓</p></div>
+    </div>
+    <div class="mt-6 flex gap-3">
+      <a href="mailto:Hi5arun@gmail.com" class="border px-4 py-2 rounded-lg">Email Me</a>
+      <a href="https://www.linkedin.com/in/hi5arun/" target="_blank" class="bg-brand-primary text-white px-4 py-2 rounded-lg">LinkedIn</a>
+      <a href="#projects" class="bg-green-500 text-white px-4 py-2 rounded-lg">View Projects</a>
+    </div>
+  </div>
+  <div data-aos="fade-left"><img src="Arun Ashokan.jpg" alt="Arun Ashokan" class="rounded-3xl shadow-xl w-full object-cover"></div>
+</section>
+
+<section id="projects" class="py-16 bg-white">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center">Personal Projects</h2>
+    <div class="mt-10 grid md:grid-cols-2 gap-8">
+      <div data-aos="fade-up" class="p-6 bg-gray-50 rounded-xl shadow-lg">
+        <h3 class="text-xl font-bold text-brand-primary">RAG Chatbot Deployment</h3>
+        [cite_start]<p class="mt-2 text-gray-700">Built and deployed a Retrieval-Augmented Generation (RAG) chatbot on my personal portfolio website, enabling contextual Q&A from documents and showcasing AI skills[cite: 15].</p>
+        <button onclick="document.getElementById('jarvis-popup').style.display='block'" class="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg">Try the Chatbot</button>
+      </div>
+      <div data-aos="fade-up" data-aos-delay="200" class="p-6 bg-gray-50 rounded-xl shadow-lg">
+        <h3 class="text-xl font-bold text-brand-primary">Personal AI Agent – Jarvis</h3>
+        [cite_start]<p class="mt-2 text-gray-700">Developed a personal AI assistant with speech recognition, task automation, and summarization features using Python, FastAPI, and open-source LLMs[cite: 16].</p>
+        <button onclick="document.getElementById('jarvis-popup').style.display='block'" class="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg">Talk to Jarvis</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="testimonials" class="py-16 bg-gray-50">
+  <div class="max-w-4xl mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center">Testimonials</h2>
+    <div class="relative mt-10 overflow-hidden rounded-xl shadow-lg" id="testimonial-carousel">
+      <div class="flex transition-transform duration-700" id="testimonial-track">
+        <img src="img/Aneri%20recommendation.png" class="w-full object-contain animate-zoom-slow" alt="Testimonial 1">
+        <img src="img/Anshita%20recommendation.png" class="w-full object-contain animate-zoom-slow" alt="Testimonial 2">
+        <img src="img/Eoghan%20recommendation.png" class="w-full object-contain animate-zoom-slow" alt="Testimonial 3">
+        <img src="img/Suman%20recommendation.png" class="w-full object-contain animate-zoom-slow" alt="Testimonial 4">
+      </div>
+      <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2" id="testimonial-dots"></div>
+    </div>
+  </div>
+</section>
+
+<section id="experience" class="py-16 bg-white">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center">Professional Experience</h2>
+    <div class="mt-10 space-y-12">
+      <div data-aos="fade-up" class="p-6 bg-gray-50 rounded-xl shadow-lg">
+        <div class="flex justify-between items-start">
+          <div>
+            <h3 class="text-2xl font-bold text-brand-primary">Manager Presales</h3>
+            <p class="text-lg text-gray-700">Worktual Innovations Private Limited, Chennai</p>
+          </div>
+          <span class="text-gray-500">Jun 2025 – Jul 2025</span>
+        </div>
+        <ul class="mt-4 space-y-2 list-disc list-inside text-gray-700">
+          [cite_start]<li>Led presales initiatives for a next-gen cloud communication SaaS platform, collaborating cross-functionally with sales, product, and engineering teams to deliver compelling, solution-driven value propositions to SMB and enterprise clients[cite: 1].</li>
+          [cite_start]<li>Owned solutioning and technical sales efforts around CDP, CVM, AI Chatbots, and AI-powered Contact Center (CCaaS) platforms to enhance customer personalization, retention, and support efficiency[cite: 1].</li>
+          [cite_start]<li>Delivered tailored demos, PoCs, and value-driven presentations, reducing the sales cycle by 25% and improving technical win rates by 40%[cite: 1].</li>
+        </ul>
+      </div>
+
+      <div data-aos="fade-up" class="p-6 bg-gray-50 rounded-xl shadow-lg">
+        <div class="flex justify-between items-start">
+          <div>
+            <h3 class="text-2xl font-bold text-brand-primary">Senior Technical Consultant</h3>
+            <p class="text-lg text-gray-700">Ushur Technologies Private Limited (Ushur INC), Bengaluru</p>
+          </div>
+          <span class="text-gray-500">May 2019 – Mar 2025</span>
+        </div>
+        <ul class="mt-4 space-y-2 list-disc list-inside text-gray-700">
+          [cite_start]<li>Led enterprise-wide SaaS implementation projects for clients, serving as the primary point of contact and project manager, and achieved 95% on-time delivery from discovery to deployment with industry benchmarks[cite: 1].</li>
+          [cite_start]<li>Established a data-driven health scoring methodology to proactively identify at-risk accounts, resulting in a 25% reduction in churn and increased retention by 60%[cite: 1].</li>
+          [cite_start]<li>Spearheaded enterprise automation initiatives including intelligent document processing for 3,000 monthly emails, saving 3+ FTEs in labor costs, and end-to-end claims processing, collectively reducing processing times by up to 65%[cite: 1].</li>
+          [cite_start]<li>Conducted technical discovery and stakeholder workshops, influencing the product roadmap with client use cases in NLP, LLMs, conversational AI, and intelligent routing[cite: 1].</li>
+        </ul>
+      </div>
+
+      <div data-aos="fade-up" class="p-6 bg-gray-50 rounded-xl shadow-lg">
+        <div class="flex justify-between items-start">
+          <div>
+            <h3 class="text-2xl font-bold text-brand-primary">Manager Delivery and Configurations</h3>
+            <p class="text-lg text-gray-700">HFN IT Services Private Limited, Bengaluru</p>
+          </div>
+          <span class="text-gray-500">Dec 2010 – Apr 2019</span>
+        </div>
+        <ul class="mt-4 space-y-2 list-disc list-inside text-gray-700">
+          [cite_start]<li>Improved support metrics and user experience by automating manual processes and delivering predictive solutions[cite: 1].</li>
+          [cite_start]<li>Streamlined support operations by implementing an automated solution with Nanoheal, reducing average call handling time by 40%, improving first call resolution, and driving a substantial increase in customer satisfaction[cite: 1].</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="py-16 bg-gray-50">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center">Skills & Tools</h2>
+    <div class="mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+      <div data-aos="zoom-in" class="p-4 bg-white rounded-xl shadow text-center">Team Leadership and Management</div>
+      <div data-aos="zoom-in" data-aos-delay="100" class="p-4 bg-white rounded-xl shadow text-center">Solution Design & Automation</div>
+      <div data-aos="zoom-in" data-aos-delay="200" class="p-4 bg-white rounded-xl shadow text-center">Conversational AI, LLM/NLP</div>
+      <div data-aos="zoom-in" data-aos-delay="300" class="p-4 bg-white rounded-xl shadow text-center">Client Relationship Management</div>
+      <div data-aos="zoom-in" class="p-4 bg-white rounded-xl shadow text-center">Presales Solutioning</div>
+      <div data-aos="zoom-in" data-aos-delay="100" class="p-4 bg-white rounded-xl shadow text-center">Agentic AI & AI agents</div>
+      <div data-aos="zoom-in" data-aos-delay="200" class="p-4 bg-white rounded-xl shadow text-center">Customer Success Strategy</div>
+      <div data-aos="zoom-in" data-aos-delay="300" class="p-4 bg-white rounded-xl shadow text-center">ROI Analysis & TCO Optimization</div>
+      <div data-aos="zoom-in" class="p-4 bg-white rounded-xl shadow text-center">CRM Software (Salesforce, HubSpot)</div>
+      <div data-aos="zoom-in" data-aos-delay="100" class="p-4 bg-white rounded-xl shadow text-center">Data Analysis Tools (Excel, Power BI)</div>
+      <div data-aos="zoom-in" data-aos-delay="200" class="p-4 bg-white rounded-xl shadow text-center">Project Management (Jira, Asana)</div>
+      <div data-aos="zoom-in" data-aos-delay="300" class="p-4 bg-white rounded-xl shadow text-center">Python, SQL (basic)</div>
+    </div>
+  </div>
+</section>
+
+<section id="education" class="py-16 bg-white">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center">Education & Certifications</h2>
+    <div class="mt-10 grid md:grid-cols-2 gap-8">
+      <div data-aos="fade-right" class="p-6 bg-gray-50 rounded-xl shadow-lg">
+        <h3 class="text-xl font-bold text-brand-primary">Education</h3>
+        <ul class="mt-4 space-y-2 text-gray-700">
+          [cite_start]<li><span class="font-semibold">Bachelor of Engineering in Electrical and Electronics [cite: 5][cite_start]</span><br>Thangavelu Engineering College [cite: 6]</li>
+        </ul>
+      </div>
+      <div data-aos="fade-left" class="p-6 bg-gray-50 rounded-xl shadow-lg">
+        <h3 class="text-xl font-bold text-brand-primary">Certifications</h3>
+        <ul class="mt-4 space-y-2 text-gray-700">
+          [cite_start]<li><span class="font-semibold">Ushur Certified Pro [cite: 3]</span></li>
+          [cite_start]<li><span class="font-semibold">AWS Cloud Practitioner [cite: 3]</span> (Expected Sep 2025)</li>
+          [cite_start]<li><span class="font-semibold">Google Project Management Certificate [cite: 3]</span> (Expected Oct 2025)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="py-6 text-center text-gray-500 border-t">© 2025 Arun Ashokan | Built with 💡 + AI</footer>
+
+<div id="jarvis-popup" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+  <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-md relative">
+    <button onclick="document.getElementById('jarvis-popup').style.display='none'" class="absolute top-2 right-2 text-gray-500">✖</button>
+    <h3 class="text-xl font-bold mb-4">Talk to Jarvis</h3>
+    <iframe src="https://hi5arun.github.io/portfolio/jarvis.html" class="w-full h-96 border rounded"></iframe>
+  </div>
+</div>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
