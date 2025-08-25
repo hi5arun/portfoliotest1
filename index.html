@@ -1,184 +1,443 @@
-<!doctype html>
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Arun Ashokan | Portfolio</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>tailwind.config={theme:{extend:{colors:{brand:{primary:'#1A73E8',accent:'#34D399'},},animation:{'zoom-slow':'zoom 12s ease-in-out infinite'},keyframes:{zoom:{'0%,100%':{transform:'scale(1)'},'50%':{transform:'scale(1.05)'}}}}}}</script>
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
-  <link rel="stylesheet" href="custom.css" />
-  <script src="https://kit.fontawesome.com/a2d9d6a05f.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arun Ashokan | AI-Driven Presales & Customer Success Manager</title>
+    <meta name="description" content="AI-Driven Presales & Customer Success Manager Enabling Enterprise SaaS Adoption. 18+ years in AI/ML-powered SaaS solutions.">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Arun Ashokan Portfolio">
+    <meta property="og:description" content="AI-Driven Presales & Customer Success Manager Enabling Enterprise SaaS Adoption.">
+    <meta property="og:image" content="img/og_image.png">
+    <meta property="og:url" content="https://hi5arun.github.io/portfoliotest/">
+    <meta property="og:type" content="website">
+    <!-- Favicon -->
+    <link rel="icon" href="img/favicon.ico">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            primary: '#1A73E8',
+                            accent: '#34D399'
+                        }
+                    },
+                    animation: {
+                        'zoom-slow': 'zoom 12s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        zoom: {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.05)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- AOS CDN -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Alpine.js CDN -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        .card-hover { transition: transform 0.3s; }
+        .card-hover:hover { transform: scale(1.05); }
+        #chatbot-modal { transition: opacity 0.3s; }
+        /* Hamburger menu icon */
+        .hamburger div { transition: all 0.3s ease; }
+        .hamburger.open .line1 { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.open .line2 { opacity: 0; }
+        .hamburger.open .line3 { transform: rotate(-45deg) translate(7px, -7px); }
+    </style>
 </head>
-<body class="bg-white text-gray-900 antialiased">
-<header class="sticky top-0 bg-white/80 backdrop-blur z-50 border-b">
-  <div class="max-w-6xl mx-auto flex justify-between items-center px-4 py-3">
-    <span class="font-bold">Arun <span class="text-brand-primary">Ashokan</span></span>
-    <a href="https://drive.google.com/uc?export=download&id=1WT1bzr0M_eLK9WXrUpdb36i26VXyxB3c" target="_blank" class="bg-brand-primary text-white px-4 py-2 rounded-lg">Download Resume</a>
-  </div>
-</header>
-
-<section class="max-w-6xl mx-auto px-4 py-16 grid md:grid-cols-2 gap-8 items-center">
-  <div data-aos="fade-right">
-    <h1 class="text-4xl font-bold">Manager – Presales<br><span class="text-brand-primary">Customer Success & AI SaaS Leader</span></h1>
-    <div class="mt-6 p-6 bg-gray-50 rounded-xl shadow">
-      <p class="text-gray-700">Strategic presales and customer success leader with 18+ years enabling enterprise adoption of AI/ML-powered SaaS solutions. Proven expertise in Conversational AI, CVM, CDP, and CCaaS. Skilled in aligning technical solutioning with GTM strategy to reduce churn, accelerate time-to-value, and drive ROI.</p>
-    </div>
-    <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-4 text-center">
-      <div class="p-4 bg-white rounded-xl shadow"><span class="text-2xl font-bold text-brand-primary">18+</span><p class="text-sm">Years</p></div>
-      <div class="p-4 bg-white rounded-xl shadow"><span class="text-2xl font-bold text-brand-primary">25%</span><p class="text-sm">Faster Cycles</p></div>
-      <div class="p-4 bg-white rounded-xl shadow"><span class="text-2xl font-bold text-brand-primary">40%</span><p class="text-sm">Win Rate↑</p></div>
-      <div class="p-4 bg-white rounded-xl shadow"><span class="text-2xl font-bold text-brand-primary">95%</span><p class="text-sm">On-time</p></div>
-      <div class="p-4 bg-white rounded-xl shadow"><span class="text-2xl font-bold text-brand-primary">60%</span><p class="text-sm">Retention↑</p></div>
-      <div class="p-4 bg-white rounded-xl shadow"><span class="text-2xl font-bold text-brand-primary">65%</span><p class="text-sm">Time↓</p></div>
-    </div>
-    <div class="mt-6 flex gap-3">
-      <a href="mailto:Hi5arun@gmail.com" class="border px-4 py-2 rounded-lg">Email Me</a>
-      <a href="https://www.linkedin.com/in/hi5arun/" target="_blank" class="bg-brand-primary text-white px-4 py-2 rounded-lg">LinkedIn</a>
-      <a href="#projects" class="bg-green-500 text-white px-4 py-2 rounded-lg">View Projects</a>
-    </div>
-  </div>
-  <div data-aos="fade-left"><img src="Arun Ashokan.jpg" alt="Arun Ashokan" class="rounded-3xl shadow-xl w-full object-cover"></div>
-</section>
-
-<section id="projects" class="py-16 bg-white">
-  <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center">Personal Projects</h2>
-    <div class="mt-10 grid md:grid-cols-2 gap-8">
-      <div data-aos="fade-up" class="p-6 bg-gray-50 rounded-xl shadow-lg">
-        <h3 class="text-xl font-bold text-brand-primary">RAG Chatbot Deployment</h3>
-        [cite_start]<p class="mt-2 text-gray-700">Built and deployed a Retrieval-Augmented Generation (RAG) chatbot on my personal portfolio website, enabling contextual Q&A from documents and showcasing AI skills[cite: 15].</p>
-        <button onclick="document.getElementById('jarvis-popup').style.display='block'" class="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg">Try the Chatbot</button>
-      </div>
-      <div data-aos="fade-up" data-aos-delay="200" class="p-6 bg-gray-50 rounded-xl shadow-lg">
-        <h3 class="text-xl font-bold text-brand-primary">Personal AI Agent – Jarvis</h3>
-        [cite_start]<p class="mt-2 text-gray-700">Developed a personal AI assistant with speech recognition, task automation, and summarization features using Python, FastAPI, and open-source LLMs[cite: 16].</p>
-        <button onclick="document.getElementById('jarvis-popup').style.display='block'" class="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg">Talk to Jarvis</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="testimonials" class="py-16 bg-gray-50">
-  <div class="max-w-4xl mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center">Testimonials</h2>
-    <div class="relative mt-10 overflow-hidden rounded-xl shadow-lg" id="testimonial-carousel">
-      <div class="flex transition-transform duration-700" id="testimonial-track">
-        <img src="img/Aneri%20recommendation.png" class="w-full object-contain animate-zoom-slow" alt="Testimonial 1">
-        <img src="img/Anshita%20recommendation.png" class="w-full object-contain animate-zoom-slow" alt="Testimonial 2">
-        <img src="img/Eoghan%20recommendation.png" class="w-full object-contain animate-zoom-slow" alt="Testimonial 3">
-        <img src="img/Suman%20recommendation.png" class="w-full object-contain animate-zoom-slow" alt="Testimonial 4">
-      </div>
-      <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2" id="testimonial-dots"></div>
-    </div>
-  </div>
-</section>
-
-<section id="experience" class="py-16 bg-white">
-  <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center">Professional Experience</h2>
-    <div class="mt-10 space-y-12">
-      <div data-aos="fade-up" class="p-6 bg-gray-50 rounded-xl shadow-lg">
-        <div class="flex justify-between items-start">
-          <div>
-            <h3 class="text-2xl font-bold text-brand-primary">Manager Presales</h3>
-            <p class="text-lg text-gray-700">Worktual Innovations Private Limited, Chennai</p>
-          </div>
-          <span class="text-gray-500">Jun 2025 – Jul 2025</span>
+<body class="bg-white text-gray-900">
+    <!-- Header with Hamburger Menu -->
+    <header class="sticky top-0 bg-white/80 backdrop-blur z-50 border-b">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <span class="font-bold text-lg">Arun <span class="text-brand-primary">Ashokan</span></span>
+            <!-- Hamburger Menu for Mobile -->
+            <div x-data="{ open: false }" class="md:hidden">
+                <button @click="open = !open" class="hamburger flex flex-col gap-1.5 w-8 h-8 justify-center items-center">
+                    <div class="line1 w-8 h-1 bg-brand-primary rounded"></div>
+                    <div class="line2 w-8 h-1 bg-brand-primary rounded"></div>
+                    <div class="line3 w-8 h-1 bg-brand-primary rounded"></div>
+                </button>
+                <div x-show="open" class="absolute top-16 right-0 bg-white shadow-lg w-full p-4" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="transform translate-x-full" x-transition:enter-end="transform translate-x-0" x-transition:leave="transition ease-in duration-200" x-transition:leave-end="transform translate-x-full">
+                    <ul class="flex flex-col space-y-4 text-center">
+                        <li><a href="#about" @click="open = false" class="hover:text-brand-primary">About</a></li>
+                        <li><a href="#skills" @click="open = false" class="hover:text-brand-primary">Skills</a></li>
+                        <li><a href="#experience" @click="open = false" class="hover:text-brand-primary">Experience</a></li>
+                        <li><a href="#projects" @click="open = false" class="hover:text-brand-primary">Projects</a></li>
+                        <li><a href="#certifications" @click="open = false" class="hover:text-brand-primary">Certifications</a></li>
+                        <li><a href="#education" @click="open = false" class="hover:text-brand-primary">Education</a></li>
+                        <li><a href="#testimonials" @click="open = false" class="hover:text-brand-primary">Testimonials</a></li>
+                        <li><a href="#contact" @click="open = false" class="hover:text-brand-primary">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Desktop Menu -->
+            <ul class="hidden md:flex space-x-6">
+                <li><a href="#about" class="hover:text-brand-primary">About</a></li>
+                <li><a href="#skills" class="hover:text-brand-primary">Skills</a></li>
+                <li><a href="#experience" class="hover:text-brand-primary">Experience</a></li>
+                <li><a href="#projects" class="hover:text-brand-primary">Projects</a></li>
+                <li><a href="#certifications" class="hover:text-brand-primary">Certifications</a></li>
+                <li><a href="#education" class="hover:text-brand-primary">Education</a></li>
+                <li><a href="#testimonials" class="hover:text-brand-primary">Testimonials</a></li>
+                <li><a href="#contact" class="hover:text-brand-primary">Contact</a></li>
+            </ul>
         </div>
-        <ul class="mt-4 space-y-2 list-disc list-inside text-gray-700">
-          [cite_start]<li>Led presales initiatives for a next-gen cloud communication SaaS platform, collaborating cross-functionally with sales, product, and engineering teams to deliver compelling, solution-driven value propositions to SMB and enterprise clients[cite: 1].</li>
-          [cite_start]<li>Owned solutioning and technical sales efforts around CDP, CVM, AI Chatbots, and AI-powered Contact Center (CCaaS) platforms to enhance customer personalization, retention, and support efficiency[cite: 1].</li>
-          [cite_start]<li>Delivered tailored demos, PoCs, and value-driven presentations, reducing the sales cycle by 25% and improving technical win rates by 40%[cite: 1].</li>
-        </ul>
-      </div>
+    </header>
 
-      <div data-aos="fade-up" class="p-6 bg-gray-50 rounded-xl shadow-lg">
-        <div class="flex justify-between items-start">
-          <div>
-            <h3 class="text-2xl font-bold text-brand-primary">Senior Technical Consultant</h3>
-            <p class="text-lg text-gray-700">Ushur Technologies Private Limited (Ushur INC), Bengaluru</p>
-          </div>
-          <span class="text-gray-500">May 2019 – Mar 2025</span>
+    <!-- Hero Section -->
+    <section id="hero" class="max-w-6xl mx-auto px-4 py-16 grid md:grid-cols-2 gap-8 items-center" data-aos="fade-up">
+        <div data-aos="fade-right">
+            <h1 class="text-4xl font-bold">AI-Driven Presales &<br><span class="text-brand-primary">Customer Success Manager</span></h1>
+            <div class="mt-6 p-6 bg-gray-50 rounded-xl shadow">
+                <p class="text-gray-700">Strategic leader with 18+ years enabling enterprise adoption of AI/ML-powered SaaS solutions. Proven expertise in Conversational AI, CVM, CDP, and CCaaS.</p>
+            </div>
+            <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-4 text-center">
+                <div class="p-4 bg-white rounded-xl shadow"><span class="text-2xl font-bold text-brand-primary">18+</span><p class="text-sm">Years</p></div>
+                <div class="p-4 bg-white rounded-xl shadow"><span class="text-2xl font-bold text-brand-primary">25%</span><p class="text-sm">Faster Cycles</p></div>
+                <div class="p-4 bg-white rounded-xl shadow"><span class="text-2xl font-bold text-brand-primary">40%</span><p class="text-sm">Win Rate↑</p></div>
+                <div class="p-4 bg-white rounded-xl shadow"><span class="text-2xl font-bold text-brand-primary">95%</span><p class="text-sm">On-time</p></div>
+                <div class="p-4 bg-white rounded-xl shadow"><span class="text-2xl font-bold text-brand-primary">60%</span><p class="text-sm">Retention↑</p></div>
+                <div class="p-4 bg-white rounded-xl shadow"><span class="text-2xl font-bold text-brand-primary">65%</span><p class="text-sm">Time↓</p></div>
+            </div>
+            <div class="mt-6 flex gap-3 flex-wrap">
+                <a href="mailto:Hi5arun@gmail.com" class="border border-brand-primary text-brand-primary px-4 py-2 rounded-lg flex items-center"><i data-lucide="mail" class="mr-2"></i>Email Me</a>
+                <button onclick="document.getElementById('chatbot-modal').classList.remove('hidden')" class="bg-brand-accent text-white px-4 py-2 rounded-lg flex items-center"><i data-lucide="bot" class="mr-2"></i>Talk to Jarvis</button>
+                <a href="tel:+91-9742376803" class="bg-brand-primary text-white px-4 py-2 rounded-lg flex items-center"><i data-lucide="phone" class="mr-2"></i>Call Me</a>
+            </div>
         </div>
-        <ul class="mt-4 space-y-2 list-disc list-inside text-gray-700">
-          [cite_start]<li>Led enterprise-wide SaaS implementation projects for clients, serving as the primary point of contact and project manager, and achieved 95% on-time delivery from discovery to deployment with industry benchmarks[cite: 1].</li>
-          [cite_start]<li>Established a data-driven health scoring methodology to proactively identify at-risk accounts, resulting in a 25% reduction in churn and increased retention by 60%[cite: 1].</li>
-          [cite_start]<li>Spearheaded enterprise automation initiatives including intelligent document processing for 3,000 monthly emails, saving 3+ FTEs in labor costs, and end-to-end claims processing, collectively reducing processing times by up to 65%[cite: 1].</li>
-          [cite_start]<li>Conducted technical discovery and stakeholder workshops, influencing the product roadmap with client use cases in NLP, LLMs, conversational AI, and intelligent routing[cite: 1].</li>
-        </ul>
-      </div>
-
-      <div data-aos="fade-up" class="p-6 bg-gray-50 rounded-xl shadow-lg">
-        <div class="flex justify-between items-start">
-          <div>
-            <h3 class="text-2xl font-bold text-brand-primary">Manager Delivery and Configurations</h3>
-            <p class="text-lg text-gray-700">HFN IT Services Private Limited, Bengaluru</p>
-          </div>
-          <span class="text-gray-500">Dec 2010 – Apr 2019</span>
+        <div data-aos="fade-left">
+            <img src="img/Arun Ashokan.jpg" alt="Arun Ashokan" class="rounded-3xl shadow-xl w-full object-cover animate-zoom-slow">
         </div>
-        <ul class="mt-4 space-y-2 list-disc list-inside text-gray-700">
-          [cite_start]<li>Improved support metrics and user experience by automating manual processes and delivering predictive solutions[cite: 1].</li>
-          [cite_start]<li>Streamlined support operations by implementing an automated solution with Nanoheal, reducing average call handling time by 40%, improving first call resolution, and driving a substantial increase in customer satisfaction[cite: 1].</li>
-        </ul>
-      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="py-16 bg-gray-50" data-aos="fade-up">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8">About Me</h2>
+            <p class="text-lg max-w-3xl mx-auto">AI-Driven Presales & Customer Success Manager Enabling Enterprise SaaS Adoption. With 18+ years of experience, I specialize in AI chatbots, CVM, CDP, and contact center platforms. Skilled in aligning technical solutions with GTM strategies, reducing churn, and driving ROI. US B1 Visa valid until 2027. Based in Chennai, India.</p>
+            <p class="mt-4 text-center"><a href="https://www.linkedin.com/in/hi5arun/" class="text-brand-primary hover:underline">LinkedIn</a> | <a href="https://github.com/hi5arun" class="text-brand-primary hover:underline">GitHub</a></p>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" class="py-16 bg-white" data-aos="fade-up">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8">Skills & Tools</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Leadership & Management -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-md card-hover" data-aos="zoom-in">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center"><i data-lucide="users" class="mr-2 text-brand-primary"></i> Leadership & Management</h3>
+                    <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                        <li>Team Leadership and Management</li>
+                        <li>Client Relationship Management</li>
+                        <li>Customer Success Strategy</li>
+                        <li>Stakeholder Management</li>
+                        <li>Cross-Functional Collaboration</li>
+                    </ul>
+                </div>
+                <!-- AI & Tech -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-md card-hover" data-aos="zoom-in" data-aos-delay="100">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center"><i data-lucide="bot" class="mr-2 text-brand-primary"></i> AI & Tech Expertise</h3>
+                    <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                        <li>Conversational AI, LLM/NLP</li>
+                        <li>Agentic AI & AI Agents</li>
+                        <li>Solution Design & Automation</li>
+                        <li>ROI Analysis & TCO Optimization</li>
+                        <li>Process Optimization & Efficiency</li>
+                    </ul>
+                </div>
+                <!-- Tools -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-md card-hover" data-aos="zoom-in" data-aos-delay="200">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center"><i data-lucide="tool" class="mr-2 text-brand-primary"></i> Tools & Platforms</h3>
+                    <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                        <li class="flex items-center"><i data-lucide="database" class="mr-2 text-brand-primary"></i>CRM (Salesforce, HubSpot)</li>
+                        <li class="flex items-center"><i data-lucide="bar-chart" class="mr-2 text-brand-primary"></i>Data Analysis (Excel, Power BI)</li>
+                        <li class="flex items-center"><i data-lucide="check-square" class="mr-2 text-brand-primary"></i>Project Management (Asana, Jira)</li>
+                        <li class="flex items-center"><i data-lucide="code" class="mr-2 text-brand-primary"></i>Python, SQL (Basic)</li>
+                        <li class="flex items-center"><i data-lucide="wrench" class="mr-2 text-brand-primary"></i>Other: Postman, Swagger, MS O365</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience" class="py-16 bg-gray-50" data-aos="fade-up">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8">Professional Experience</h2>
+            <div class="space-y-12">
+                <!-- Worktual -->
+                <div x-data="{ expanded: false }" class="bg-white p-6 rounded-xl shadow-md card-hover" data-aos="fade-up">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl font-bold text-brand-primary">Manager Presales</h3>
+                            <p class="text-lg text-gray-700">Worktual Innovations, Chennai</p>
+                        </div>
+                        <span class="text-gray-500">Jun 2025 – Jul 2025</span>
+                    </div>
+                    <ul class="mt-4 space-y-2 list-disc list-inside text-gray-700">
+                        <li>Led presales for cloud communication SaaS, focusing on CDP, CVM, AI Chatbots, and CCaaS.</li>
+                        <li>Delivered demos and PoCs, reducing sales cycle by 25% and improving win rates by 40%.</li>
+                        <li>Translated requirements into scalable architectures with APIs and cloud models.</li>
+                        <template x-if="expanded">
+                            <div>
+                                <li>Responded to RFPs with detailed blueprints and ROI insights.</li>
+                                <li>Aligned presales with GTM for seamless post-sale continuity.</li>
+                            </div>
+                        </template>
+                    </ul>
+                    <button @click="expanded = !expanded" x-text="expanded ? 'Read Less' : 'Read More'" class="text-brand-primary mt-4 hover:underline"></button>
+                </div>
+                <!-- Ushur -->
+                <div x-data="{ expanded: false }" class="bg-white p-6 rounded-xl shadow-md card-hover" data-aos="fade-up">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl font-bold text-brand-primary">Senior Technical Consultant</h3>
+                            <p class="text-lg text-gray-700">Ushur Technologies, Bengaluru</p>
+                        </div>
+                        <span class="text-gray-500">May 2019 – Mar 2025</span>
+                    </div>
+                    <ul class="mt-4 space-y-2 list-disc list-inside text-gray-700">
+                        <li>Led SaaS implementations with 95% on-time delivery.</li>
+                        <li>Developed health scoring, reducing churn by 25% and boosting retention by 60%.</li>
+                        <li>Automated document processing for 3,000 emails, saving 3+ FTEs.</li>
+                        <template x-if="expanded">
+                            <div>
+                                <li>Conducted QBRs and influenced product roadmap with NLP/LLM use cases.</li>
+                                <li>Created presales collateral and managed 7 accounts.</li>
+                                <li>Orchestrated demos/PoCs, increasing conversions by 45%.</li>
+                            </div>
+                        </template>
+                    </ul>
+                    <button @click="expanded = !expanded" x-text="expanded ? 'Read Less' : 'Read More'" class="text-brand-primary mt-4 hover:underline"></button>
+                </div>
+                <!-- HFN -->
+                <div x-data="{ expanded: false }" class="bg-white p-6 rounded-xl shadow-md card-hover" data-aos="fade-up">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl font-bold text-brand-primary">Manager Delivery and Configurations</h3>
+                            <p class="text-lg text-gray-700">HFN IT Services, Bengaluru</p>
+                        </div>
+                        <span class="text-gray-500">Dec 2010 – Apr 2019</span>
+                    </div>
+                    <ul class="mt-4 space-y-2 list-disc list-inside text-gray-700">
+                        <li>Deployed Nanoheal software across regions, improving efficiency.</li>
+                        <li>Implemented automations for clients like Convergys and Sitel.</li>
+                        <li>Awarded "Noble Contributor" for account management.</li>
+                        <template x-if="expanded">
+                            <li>Reduced call handling time by 40% with automated solutions.</li>
+                        </template>
+                    </ul>
+                    <button @click="expanded = !expanded" x-text="expanded ? 'Read Less' : 'Read More'" class="text-brand-primary mt-4 hover:underline"></button>
+                </div>
+                <!-- Additional Experience -->
+                <div class="bg-white p-6 rounded-xl shadow-md card-hover" data-aos="fade-up">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl font-bold text-brand-primary">Additional Roles</h3>
+                            <p class="text-lg text-gray-700">Various</p>
+                        </div>
+                        <span class="text-gray-500">2006 – 2010</span>
+                    </div>
+                    <ul class="mt-4 space-y-2 list-disc list-inside text-gray-700">
+                        <li>Senior Technical Support, Sutherland: Awarded CE Champion and Resolution Star.</li>
+                        <li>E-Relationship Associate, Redisolve: Improved CSAT and revenue growth.</li>
+                        <li>Technical Support, Sutherland: Resolved HP issues, increasing first-call resolution.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects & AI Spotlights -->
+    <section id="projects" class="py-16 bg-white" data-aos="fade-up">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8">Projects & AI Spotlights</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- AI Spotlight 1: Irish Life IDP -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-md card-hover relative" data-aos="fade-up">
+                    <span class="absolute top-2 right-2 bg-brand-primary text-white px-2 py-1 rounded text-xs flex items-center"><i data-lucide="sparkles" class="mr-1"></i> AI Spotlight</span>
+                    <h3 class="text-xl font-bold text-brand-primary">Intelligent Document Processing (2023)</h3>
+                    <p class="mt-2 text-gray-700">Automated 3,000 emails/month with RPA and AI for Irish Life, saving 3 FTEs and reducing processing time.</p>
+                </div>
+                <!-- AI Spotlight 2: Claim Status -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-md card-hover relative" data-aos="fade-up" data-aos-delay="100">
+                    <span class="absolute top-2 right-2 bg-brand-primary text-white px-2 py-1 rounded text-xs flex items-center"><i data-lucide="sparkles" class="mr-1"></i> AI Spotlight</span>
+                    <h3 class="text-xl font-bold text-brand-primary">Claim Status Updates (2021)</h3>
+                    <p class="mt-2 text-gray-700">Implemented multi-channel workflows, improving NPS and reducing inbound calls.</p>
+                </div>
+                <!-- AI Spotlight 3: Smart Mail -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-md card-hover relative" data-aos="fade-up" data-aos-delay="200">
+                    <span class="absolute top-2 right-2 bg-brand-primary text-white px-2 py-1 rounded text-xs flex items-center"><i data-lucide="sparkles" class="mr-1"></i> AI Spotlight</span>
+                    <h3 class="text-xl font-bold text-brand-primary">Smart Mail Categorization (2019)</h3>
+                    <p class="mt-2 text-gray-700">Automated email routing with 95% accuracy, saving 40% resources.</p>
+                </div>
+                <!-- AI Spotlight 4: Cyberattack Response -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-md card-hover relative" data-aos="fade-up">
+                    <span class="absolute top-2 right-2 bg-brand-primary text-white px-2 py-1 rounded text-xs flex items-center"><i data-lucide="sparkles" class="mr-1"></i> AI Spotlight</span>
+                    <h3 class="text-xl font-bold text-brand-primary">Cyberattack Bulk Messaging (2021)</h3>
+                    <p class="mt-2 text-gray-700">Deployed secure workflows for outreach, reducing calls and boosting NPS.</p>
+                </div>
+                <!-- AI Spotlight 5: Claims Processing -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-md card-hover relative" data-aos="fade-up" data-aos-delay="100">
+                    <span class="absolute top-2 right-2 bg-brand-primary text-white px-2 py-1 rounded text-xs flex items-center"><i data-lucide="sparkles" class="mr-1"></i> AI Spotlight</span>
+                    <h3 class="text-xl font-bold text-brand-primary">End-to-End Claims Automation (2024)</h3>
+                    <p class="mt-2 text-gray-700">Integrated e-signing, reducing claim cycle from days to few days.</p>
+                </div>
+                <!-- AI Spotlight 6: Nanoheal -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-md card-hover relative" data-aos="fade-up" data-aos-delay="200">
+                    <span class="absolute top-2 right-2 bg-brand-primary text-white px-2 py-1 rounded text-xs flex items-center"><i data-lucide="sparkles" class="mr-1"></i> AI Spotlight</span>
+                    <h3 class="text-xl font-bold text-brand-primary">Nanoheal Support Automation (2018)</h3>
+                    <p class="mt-2 text-gray-700">Automated fixes, reducing handle time by 40% and improving resolution.</p>
+                </div>
+                <!-- Personal Project: Jarvis AI -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-md card-hover" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-brand-primary">Personal AI Agent - Jarvis</h3>
+                    <p class="mt-2 text-gray-700">RAG-based chatbot for portfolio interaction. <a href="https://github.com/hi5arun" class="text-brand-primary">View on GitHub</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications -->
+    <section id="certifications" class="py-16 bg-gray-50" data-aos="fade-up">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8">Certifications</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-md card-hover" data-aos="fade-up">
+                    <h3 class="text-xl font-semibold flex items-center"><i data-lucide="award" class="mr-2 text-brand-primary"></i>Ushur Certified Pro</h3>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md card-hover" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-xl font-semibold flex items-center"><i data-lucide="award" class="mr-2 text-brand-primary"></i>AWS Cloud Practitioner</h3>
+                    <p class="text-sm text-gray-600">Expected Sep 2025</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md card-hover" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="text-xl font-semibold flex items-center"><i data-lucide="award" class="mr-2 text-brand-primary"></i>Google Project Management Certificate</h3>
+                    <p class="text-sm text-gray-600">Expected Oct 2025</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education -->
+    <section id="education" class="py-16 bg-white" data-aos="fade-up">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8">Education</h2>
+            <div class="max-w-2xl mx-auto bg-gray-50 p-6 rounded-xl shadow-md card-hover" data-aos="fade-up">
+                <h3 class="text-xl font-semibold flex items-center"><i data-lucide="graduation-cap" class="mr-2 text-brand-primary"></i>Bachelor of Engineering in Electrical and Electronics</h3>
+                <p class="text-sm text-gray-600">Thangavelu Engineering College</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="py-16 bg-gray-50" data-aos="fade-up">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8">Testimonials</h2>
+            <div x-data="{ slide: 0 }" class="relative overflow-hidden rounded-xl shadow-lg">
+                <div class="flex transition-transform duration-700" :style="'transform: translateX(-' + slide * 100 + '%)'">
+                    <img src="img/Aneri recommendation.png" class="w-full h-64 md:h-96 object-contain bg-white" alt="Testimonial 1">
+                    <img src="img/Anshita recommendation.png" class="w-full h-64 md:h-96 object-contain bg-white" alt="Testimonial 2">
+                    <img src="img/Eoghan recommendation.png" class="w-full h-64 md:h-96 object-contain bg-white" alt="Testimonial 3">
+                    <img src="img/Suman recommendation.png" class="w-full h-64 md:h-96 object-contain bg-white" alt="Testimonial 4">
+                </div>
+                <button @click="slide = (slide > 0) ? slide - 1 : 3" class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-brand-primary text-white p-2 rounded-full" aria-label="Previous testimonial">‹</button>
+                <button @click="slide = (slide < 3) ? slide + 1 : 0" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-brand-primary text-white p-2 rounded-full" aria-label="Next testimonial">›</button>
+                <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+                    <template x-for="i in 4" :key="i">
+                        <button @click="slide = i - 1" :class="slide === i - 1 ? 'bg-brand-primary' : 'bg-gray-300'" class="w-3 h-3 rounded-full" :aria-label="'Go to testimonial ' + i"></button>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-16 bg-white" data-aos="fade-up">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-8">Contact Me</h2>
+            <div class="flex justify-center space-x-8 flex-wrap gap-4">
+                <a href="mailto:Hi5arun@gmail.com" class="flex items-center text-brand-primary hover:underline"><i data-lucide="mail" class="mr-2"></i>Hi5arun@gmail.com</a>
+                <a href="tel:+91-9742376803" class="flex items-center text-brand-primary hover:underline"><i data-lucide="phone" class="mr-2"></i>+91-9742376803</a>
+                <a href="https://www.linkedin.com/in/hi5arun/" class="flex items-center text-brand-primary hover:underline"><i data-lucide="linkedin" class="mr-2"></i>LinkedIn</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center text-gray-500 border-t">
+        <p>© 2025 Arun Ashokan | Built with 💡 + AI</p>
+        <a href="https://drive.google.com/uc?export=download&id=1WT1bzr0M_eLK9WXrUpdb36i26VXyxB3c" class="mt-2 inline-block bg-brand-primary text-white px-4 py-2 rounded-lg">Download Resume</a>
+    </footer>
+
+    <!-- Chatbot Floating Button -->
+    <button onclick="document.getElementById('chatbot-modal').classList.remove('hidden')" class="fixed bottom-4 right-4 bg-brand-accent text-white p-3 rounded-full shadow-lg hover:bg-green-600">
+        <img src="img/Jarvis256.jpg" alt="Jarvis" class="w-12 h-12">
+    </button>
+    <div id="chatbot-modal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-md relative">
+            <button onclick="document.getElementById('chatbot-modal').classList.add('hidden')" class="absolute top-2 right-2 text-gray-500">✖</button>
+            <h3 class="text-xl font-bold mb-4">Talk to Jarvis</h3>
+            <iframe src="https://hi5arun4ai-portfoliochatbottest.hf.space" class="w-full h-96 border rounded"></iframe>
+        </div>
     </div>
-  </div>
-</section>
 
-<section id="skills" class="py-16 bg-gray-50">
-  <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center">Skills & Tools</h2>
-    <div class="mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-      <div data-aos="zoom-in" class="p-4 bg-white rounded-xl shadow text-center">Team Leadership and Management</div>
-      <div data-aos="zoom-in" data-aos-delay="100" class="p-4 bg-white rounded-xl shadow text-center">Solution Design & Automation</div>
-      <div data-aos="zoom-in" data-aos-delay="200" class="p-4 bg-white rounded-xl shadow text-center">Conversational AI, LLM/NLP</div>
-      <div data-aos="zoom-in" data-aos-delay="300" class="p-4 bg-white rounded-xl shadow text-center">Client Relationship Management</div>
-      <div data-aos="zoom-in" class="p-4 bg-white rounded-xl shadow text-center">Presales Solutioning</div>
-      <div data-aos="zoom-in" data-aos-delay="100" class="p-4 bg-white rounded-xl shadow text-center">Agentic AI & AI agents</div>
-      <div data-aos="zoom-in" data-aos-delay="200" class="p-4 bg-white rounded-xl shadow text-center">Customer Success Strategy</div>
-      <div data-aos="zoom-in" data-aos-delay="300" class="p-4 bg-white rounded-xl shadow text-center">ROI Analysis & TCO Optimization</div>
-      <div data-aos="zoom-in" class="p-4 bg-white rounded-xl shadow text-center">CRM Software (Salesforce, HubSpot)</div>
-      <div data-aos="zoom-in" data-aos-delay="100" class="p-4 bg-white rounded-xl shadow text-center">Data Analysis Tools (Excel, Power BI)</div>
-      <div data-aos="zoom-in" data-aos-delay="200" class="p-4 bg-white rounded-xl shadow text-center">Project Management (Jira, Asana)</div>
-      <div data-aos="zoom-in" data-aos-delay="300" class="p-4 bg-white rounded-xl shadow text-center">Python, SQL (basic)</div>
-    </div>
-  </div>
-</section>
-
-<section id="education" class="py-16 bg-white">
-  <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center">Education & Certifications</h2>
-    <div class="mt-10 grid md:grid-cols-2 gap-8">
-      <div data-aos="fade-right" class="p-6 bg-gray-50 rounded-xl shadow-lg">
-        <h3 class="text-xl font-bold text-brand-primary">Education</h3>
-        <ul class="mt-4 space-y-2 text-gray-700">
-          [cite_start]<li><span class="font-semibold">Bachelor of Engineering in Electrical and Electronics [cite: 5][cite_start]</span><br>Thangavelu Engineering College [cite: 6]</li>
-        </ul>
-      </div>
-      <div data-aos="fade-left" class="p-6 bg-gray-50 rounded-xl shadow-lg">
-        <h3 class="text-xl font-bold text-brand-primary">Certifications</h3>
-        <ul class="mt-4 space-y-2 text-gray-700">
-          [cite_start]<li><span class="font-semibold">Ushur Certified Pro [cite: 3]</span></li>
-          [cite_start]<li><span class="font-semibold">AWS Cloud Practitioner [cite: 3]</span> (Expected Sep 2025)</li>
-          [cite_start]<li><span class="font-semibold">Google Project Management Certificate [cite: 3]</span> (Expected Oct 2025)</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer class="py-6 text-center text-gray-500 border-t">© 2025 Arun Ashokan | Built with 💡 + AI</footer>
-
-<div id="jarvis-popup" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-  <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-md relative">
-    <button onclick="document.getElementById('jarvis-popup').style.display='none'" class="absolute top-2 right-2 text-gray-500">✖</button>
-    <h3 class="text-xl font-bold mb-4">Talk to Jarvis</h3>
-    <iframe src="https://hi5arun.github.io/portfolio/jarvis.html" class="w-full h-96 border rounded"></iframe>
-  </div>
-</div>
-
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script src="main.js"></script>
+    <script>
+        AOS.init();
+        lucide.createIcons();
+    </script>
 </body>
 </html>
